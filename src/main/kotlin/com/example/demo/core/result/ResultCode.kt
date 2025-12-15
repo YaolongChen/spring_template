@@ -7,6 +7,7 @@ enum class ResultCode(val code: Int, val key: String) {
     ERROR(400, "response.error"),
 
     TOKEN_EXPIRED(10000, "token.expired"),
+    TOKEN_VERIFICATION_ERROR(10001, "token.verification.error"),
 
     USER_REGISTER_EXISTED(40000, "user.register.existed"),
     USER_LOGIN_ERROR(40001, "user.login.error"),

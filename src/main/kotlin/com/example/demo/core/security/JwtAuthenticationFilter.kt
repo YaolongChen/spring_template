@@ -1,5 +1,6 @@
 package com.example.demo.core.security
 
+import com.auth0.jwt.exceptions.TokenExpiredException
 import com.example.demo.core.result.ResultCode
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
@@ -33,8 +34,10 @@ class JwtAuthenticationFilter(private val jwtUtil: JwtUtil) : OncePerRequestFilt
             authentication.details = WebAuthenticationDetailsSource().buildDetails(request)
 
             SecurityContextHolder.getContext().authentication = authentication
-        } catch (e: Exception) {
+        } catch (e: TokenExpiredException) {
             request.setAttribute("jwt_error", ResultCode.TOKEN_EXPIRED)
+        } catch (e: Exception) {
+            request.setAttribute("jwt_error", ResultCode.TOKEN_VERIFICATION_ERROR)
         }
 
         filterChain.doFilter(request, response)
